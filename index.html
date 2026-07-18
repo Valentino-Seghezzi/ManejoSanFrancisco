@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manejo San Francisco | Escuela de manejo</title>
+<meta name="description" content="Aprendé a manejar en San Francisco con clases prácticas, instructores certificados y auto propio o de la escuela. Reservá tu lugar por WhatsApp.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --asphalt:#171B22;
+    --asphalt-soft:#232833;
+    --road-blue:#1E3A5F;
+    --road-blue-light:#2E5580;
+    --concrete:#6B7280;
+    --paper:#F5F6F2;
+    --paper-dim:#E9EAE4;
+    --line-yellow:#FFC229;
+    --line-yellow-dark:#E6A800;
+    --signal-orange:#FF6B35;
+    --white:#FFFFFF;
+    --radius:14px;
+    --shadow-soft: 0 10px 30px -12px rgba(23,27,34,.25);
+    --font-display:'Oswald', sans-serif;
+    --font-body:'Inter', sans-serif;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:var(--font-body);
+    background:var(--paper);
+    color:var(--asphalt);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  ul{list-style:none;}
+  h1,h2,h3,h4{font-family:var(--font-display);letter-spacing:.02em;line-height:1.1;}
+  .container{width:100%;max-width:1180px;margin:0 auto;padding:0 24px;}
+
+  :focus-visible{outline:3px solid var(--line-yellow);outline-offset:3px;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important;}
+  }
+
+  /* --- Signature element: dashed "lane line" divider between sections, echoing road markings --- */
+  .lane-divider{
+    height:34px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--asphalt);
+  }
+  .lane-divider .lane-track{
+    width:100%;
+    max-width:1180px;
+    height:6px;
+    margin:0 24px;
+    flex:1;
+    background-image:repeating-linear-gradient(90deg, var(--line-yellow) 0 34px, transparent 34px 64px);
+    border-radius:6px;
+    opacity:.9;
+  }
+  .lane-divider.on-paper{background:var(--paper);}
+  .lane-divider.on-dark-blue{background:var(--road-blue);}
+
+  /* --- Eyebrow / road-sign style label --- */
+  .sign-label{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-family:var(--font-display);
+    font-size:.78rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--white);
+    background:var(--road-blue);
+    padding:6px 14px;
+    border-radius:6px;
+    border:2px solid var(--white);
+    box-shadow:0 3px 0 var(--asphalt);
+  }
+
+  /* ---------------- HEADER ---------------- */
+  header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    background:rgba(23,27,34,.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  .nav-wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:16px 24px;
+    max-width:1180px;
+    margin:0 auto;
+  }
+  .logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:var(--font-display);
+    font-size:1.2rem;
+    color:var(--white);
+    font-weight:600;
+    letter-spacing:.02em;
+  }
+  .logo .dot{
+    width:12px;height:12px;border-radius:50%;
+    background:var(--line-yellow);
+    box-shadow:0 0 0 3px rgba(255,194,41,.25);
+  }
+  .logo span.small{color:var(--line-yellow);}
+  nav.links{
+    display:flex;
+    align-items:center;
+    gap:30px;
+  }
+  nav.links a{
+    color:var(--paper);
+    font-size:.92rem;
+    font-weight:500;
+    position:relative;
+    padding:6px 2px;
+    transition:color .25s ease;
+  }
+  nav.links a:hover{color:var(--line-yellow);}
+  nav.links a::after{
+    content:"";
+    position:absolute;
+    left:0;bottom:-2px;
+    width:0;height:2px;
+    background:var(--line-yellow);
+    transition:width .25s ease;
+  }
+  nav.links a:hover::after{width:100%;}
+  .btn-nav-cta{
+    background:var(--line-yellow);
+    color:var(--asphalt);
+    padding:10px 18px;
+    border-radius:999px;
+    font-weight:700;
+    font-size:.88rem;
+    transition:transform .2s ease, box-shadow .2s ease, background .2s ease;
+  }
+  .btn-nav-cta:hover{
+    background:var(--white);
+    transform:translateY(-2px);
+    box-shadow:0 8px 18px -6px rgba(255,194,41,.6);
+  }
+  .burger{
+    display:none;
+    flex-direction:column;
+    gap:5px;
+    background:none;
+    border:none;
+    cursor:pointer;
+    padding:6px;
+  }
+  .burger span{width:26px;height:2px;background:var(--white);border-radius:2px;}
+
+  /* ---------------- HERO ---------------- */
+  .hero{
+    position:relative;
+    background:
+      radial-gradient(1100px 500px at 85% -10%, rgba(46,85,128,.55), transparent 60%),
+      var(--asphalt);
+    color:var(--white);
+    overflow:hidden;
+    padding:110px 0 90px;
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    left:50%;
+    bottom:-40px;
+    width:10px;
+    height:120%;
+    transform:translateX(-50%) rotate(0deg);
+    background-image:repeating-linear-gradient(180deg, var(--line-yellow) 0 46px, transparent 46px 90px);
+    opacity:.14;
+  }
+  .hero-grid{
+    position:relative;
+    z-index:2;
+    display:grid;
+    grid-template-columns:1.15fr .85fr;
+    gap:50px;
+    align-items:center;
+  }
+  .hero-eyebrow{margin-bottom:22px;}
+  .hero h1{
+    font-size:clamp(2.4rem, 5.2vw, 4.1rem);
+    font-weight:700;
+    text-transform:uppercase;
+    margin-bottom:20px;
+  }
+  .hero h1 .hl{color:var(--line-yellow);}
+  .hero p.lead{
+    font-family:var(--font-body);
+    font-size:1.12rem;
+    color:#D6DAE2;
+    max-width:520px;
+    margin-bottom:36px;
+    font-weight:400;
+  }
+  .hero-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:16px;
+    margin-bottom:44px;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:16px 30px;
+    border-radius:10px;
+    font-weight:700;
+    font-family:var(--font-display);
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    font-size:.95rem;
+    cursor:pointer;
+    border:none;
+    transition:transform .22s ease, box-shadow .22s ease, background .22s ease;
+  }
+  .btn-primary{
+    background:var(--line-yellow);
+    color:var(--asphalt);
+    box-shadow:0 6px 0 var(--line-yellow-dark);
+  }
+  .btn-primary:hover{
+    transform:translateY(-3px);
+    box-shadow:0 9px 0 var(--line-yellow-dark);
+  }
+  .btn-primary:active{transform:translateY(1px);box-shadow:0 3px 0 var(--line-yellow-dark);}
+  .btn-outline{
+    background:transparent;
+    color:var(--white);
+    border:2px solid rgba(255,255,255,.5);
+  }
+  .btn-outline:hover{border-color:var(--white);background:rgba(255,255,255,.08);}
+
+  .hero-stats{
+    display:flex;
+    gap:34px;
+    flex-wrap:wrap;
+  }
+  .hero-stats div{min-width:100px;}
+  .hero-stats strong{
+    display:block;
+    font-family:var(--font-display);
+    font-size:1.9rem;
+    color:var(--line-yellow);
+  }
+  .hero-stats span{
+    font-size:.82rem;
+    color:#AEB4C0;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+  }
+
+  .hero-visual{
+    position:relative;
+    z-index:2;
+  }
+  .wheel-card{
+    background:linear-gradient(160deg, var(--road-blue-light), var(--road-blue));
+    border-radius:24px;
+    padding:34px;
+    box-shadow:var(--shadow-soft);
+    color:var(--white);
+    position:relative;
+  }
+  .wheel-card img{
+    border-radius:16px;
+    width:100%;
+    aspect-ratio:4/5;
+    object-fit:cover;
+  }
+  .wheel-badge{
+    position:absolute;
+    bottom:-18px;
+    left:-18px;
+    background:var(--paper);
+    color:var(--asphalt);
+    border-radius:14px;
+    padding:14px 18px;
+    box-shadow:var(--shadow-soft);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:var(--font-display);
+  }
+  .wheel-badge .n{font-size:1.6rem;color:var(--road-blue);}
+  .wheel-badge span.txt{font-size:.72rem;color:var(--concrete);text-transform:uppercase;letter-spacing:.04em;font-family:var(--font-body);font-weight:600;}
+
+  /* ---------------- SECTION GENERIC ---------------- */
+  section{padding:90px 0;}
+  .section-head{
+    text-align:center;
+    max-width:640px;
+    margin:0 auto 56px;
+  }
+  .section-head .sign-label{margin-bottom:18px;}
+  .section-head h2{
+    font-size:clamp(1.9rem, 3.6vw, 2.7rem);
+    text-transform:uppercase;
+    margin-bottom:14px;
+    color:var(--asphalt);
+  }
+  .section-head p{color:var(--concrete);font-size:1.02rem;}
+
+  /* ---------------- CURSOS ---------------- */
+  .cursos{background:var(--paper);}
+  .cards-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:30px;
+    max-width:920px;
+    margin:0 auto;
+  }
+  .plan-card{
+    background:var(--white);
+    border-radius:20px;
+    padding:38px 32px 32px;
+    box-shadow:var(--shadow-soft);
+    border:1px solid var(--paper-dim);
+    position:relative;
+    transition:transform .3s ease, box-shadow .3s ease;
+    display:flex;
+    flex-direction:column;
+  }
+  .plan-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 22px 40px -16px rgba(23,27,34,.28);
+  }
+  .plan-card.featured{
+    border:2px solid var(--line-yellow);
+  }
+  .plan-tag{
+    position:absolute;
+    top:-14px;
+    right:28px;
+    background:var(--signal-orange);
+    color:var(--white);
+    font-family:var(--font-display);
+    font-size:.72rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    padding:6px 14px;
+    border-radius:999px;
+    box-shadow:0 4px 10px -3px rgba(255,107,53,.6);
+  }
+  .plan-icon{
+    width:54px;height:54px;
+    border-radius:14px;
+    background:var(--road-blue);
+    display:flex;align-items:center;justify-content:center;
+    margin-bottom:20px;
+  }
+  .plan-icon svg{width:28px;height:28px;stroke:var(--line-yellow);}
+  .plan-card h3{
+    font-size:1.35rem;
+    text-transform:uppercase;
+    margin-bottom:10px;
+    color:var(--asphalt);
+  }
+  .plan-card .plan-desc{color:var(--concrete);font-size:.94rem;margin-bottom:22px;}
+  .plan-feats{margin-bottom:26px;display:flex;flex-direction:column;gap:10px;}
+  .plan-feats li{
+    display:flex;align-items:center;gap:10px;
+    font-size:.92rem;color:var(--asphalt);
+  }
+  .plan-feats li svg{width:18px;height:18px;flex-shrink:0;stroke:var(--road-blue);}
+  .plan-price{
+    display:flex;
+    align-items:baseline;
+    gap:6px;
+    margin-bottom:26px;
+    padding-top:20px;
+    border-top:1px dashed var(--paper-dim);
+  }
+  .plan-price .amount{font-family:var(--font-display);font-size:2.3rem;color:var(--road-blue);}
+  .plan-price .unit{font-size:.85rem;color:var(--concrete);}
+  .plan-card .btn{width:100%;justify-content:center;margin-top:auto;}
+  .btn-book{
+    background:var(--road-blue);
+    color:var(--white);
+    box-shadow:0 6px 0 #142943;
+  }
+  .btn-book:hover{background:var(--road-blue-light);transform:translateY(-3px);box-shadow:0 9px 0 #142943;}
+  .btn-book:active{transform:translateY(1px);box-shadow:0 3px 0 #142943;}
+
+  /* ---------------- TESTIMONIOS VIDEO ---------------- */
+  .testimonios{background:var(--asphalt);color:var(--white);}
+  .testimonios .section-head p{color:#AEB4C0;}
+  .testimonios .section-head h2{color:var(--white);}
+  .video-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:26px;
+  }
+  .video-card{
+    background:var(--asphalt-soft);
+    border-radius:16px;
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,.08);
+    transition:transform .3s ease;
+    display:flex;
+    flex-direction:column;
+  }
+  .video-card:hover{transform:translateY(-6px);}
+  .video-frame{
+    position:relative;
+    width:100%;
+    aspect-ratio:9/16;
+    background:#0F1319;
+  }
+  .video-frame iframe{
+    width:100%;
+    height:100%;
+    border:none;
+  }
+  .video-info{
+    padding:20px;
+    flex-grow:1;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+  }
+  .video-info p.testimonial-text{
+    font-size:.92rem;
+    color:#D6DAE2;
+    line-height:1.5;
+    margin:0;
+    white-space:pre-line;
+  }
+
+  /* ---------------- GALERIA ---------------- */
+  .galeria{background:var(--paper);}
+  .gallery-grid-embeds{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+    gap:20px;
+    justify-content:center;
+  }
+  .gallery-embed-item{
+    background:var(--white);
+    border-radius:14px;
+    overflow:hidden;
+    box-shadow:var(--shadow-soft);
+    aspect-ratio:9/16;
+    width:100%;
+    max-width:340px;
+    margin:0 auto;
+  }
+  .gallery-embed-item iframe{
+    width:100%;
+    height:100%;
+    border:none;
+  }
+
+  /* ---------------- FAQ ---------------- */
+  .faq{background:var(--white);}
+  .faq-list{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:14px;}
+  .faq-item{
+    border:1px solid var(--paper-dim);
+    border-radius:12px;
+    background:var(--paper);
+    overflow:hidden;
+  }
+  .faq-question{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    padding:20px 22px;
+    background:none;
+    border:none;
+    cursor:pointer;
+    text-align:left;
+    font-family:var(--font-display);
+    font-size:1.02rem;
+    color:var(--asphalt);
+    text-transform:uppercase;
+    letter-spacing:.01em;
+  }
+  .faq-question .icon{
+    flex-shrink:0;
+    width:30px;height:30px;
+    border-radius:50%;
+    background:var(--road-blue);
+    display:flex;align-items:center;justify-content:center;
+    position:relative;
+    transition:transform .3s ease, background .3s ease;
+  }
+  .faq-question .icon::before,.faq-question .icon::after{
+    content:"";
+    position:absolute;
+    background:var(--white);
+    border-radius:2px;
+  }
+  .faq-question .icon::before{width:12px;height:2px;}
+  .faq-question .icon::after{width:2px;height:12px;transition:transform .3s ease;}
+  .faq-item.open .faq-question .icon{background:var(--line-yellow);}
+  .faq-item.open .faq-question .icon::before,
+  .faq-item.open .faq-question .icon::after{background:var(--asphalt);}
+  .faq-item.open .faq-question .icon::after{transform:rotate(90deg) translateX(0);opacity:0;}
+  .faq-answer{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .35s ease;
+  }
+  .faq-answer p{
+    padding:0 22px 22px;
+    color:var(--concrete);
+    font-size:.95rem;
+    max-width:640px;
+  }
+
+  /* ---------------- CONTACTO ---------------- */
+  .contacto{background:var(--road-blue);color:var(--white);}
+  .contacto .section-head p{color:#CBD6E4;}
+  .contacto .section-head h2{color:var(--white);}
+  .contact-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:36px;
+    align-items:stretch;
+  }
+  .map-wrap{
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:var(--shadow-soft);
+    min-height:380px;
+    border:4px solid rgba(255,255,255,.12);
+  }
+  .map-wrap iframe{width:100%;height:100%;min-height:380px;border:0;}
+  .contact-card{
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.16);
+    border-radius:18px;
+    padding:36px;
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+  .contact-row{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    padding:16px;
+    background:rgba(255,255,255,.05);
+    border-radius:12px;
+    transition:background .25s ease, transform .25s ease;
+  }
+  .contact-row:hover{background:rgba(255,255,255,.12);transform:translateX(4px);}
+  .contact-row .ic{
+    width:44px;height:44px;
+    border-radius:10px;
+    background:var(--line-yellow);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .contact-row .ic svg{width:22px;height:22px;stroke:var(--asphalt);}
+  .contact-row .txt strong{display:block;font-size:.95rem;}
+  .contact-row .txt span{font-size:.85rem;color:#CBD6E4;}
+  .contact-card .btn{width:100%;justify-content:center;}
+
+  /* ---------------- FOOTER ---------------- */
+  footer{
+    background:var(--asphalt);
+    color:#8B93A3;
+    padding:40px 0 30px;
+    text-align:center;
+    font-size:.85rem;
+  }
+  footer .foot-logo{
+    font-family:var(--font-display);
+    color:var(--white);
+    font-size:1.1rem;
+    margin-bottom:8px;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+  }
+  footer .foot-logo span{color:var(--line-yellow);}
+  footer .foot-links{
+    display:flex;gap:22px;justify-content:center;margin:16px 0;flex-wrap:wrap;
+  }
+  footer .foot-links a{color:#AEB4C0;transition:color .2s ease;}
+  footer .foot-links a:hover{color:var(--line-yellow);}
+
+  /* WhatsApp floating button */
+  .float-wa{
+    position:fixed;
+    bottom:24px;right:24px;
+    width:60px;height:60px;
+    border-radius:50%;
+    background:#25D366;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 10px 24px -6px rgba(37,211,102,.6);
+    z-index:200;
+    transition:transform .25s ease;
+  }
+  .float-wa:hover{transform:scale(1.08);}
+  .float-wa svg{width:30px;height:30px;fill:var(--white);}
+
+  /* ---------------- RESPONSIVE ---------------- */
+  @media (max-width: 980px){
+    .hero-grid{grid-template-columns:1fr;}
+    .hero-visual{max-width:380px;margin:0 auto;}
+    .cards-grid{grid-template-columns:1fr;max-width:460px;}
+    .video-grid{grid-template-columns:repeat(2, 1fr);}
+    .contact-grid{grid-template-columns:1fr;}
+  }
+  @media (max-width: 720px){
+    nav.links{
+      position:fixed;
+      top:64px;left:0;right:0;
+      background:var(--asphalt);
+      flex-direction:column;
+      align-items:flex-start;
+      padding:20px 24px 28px;
+      gap:18px;
+      transform:translateY(-130%);
+      opacity:0;
+      transition:transform .3s ease, opacity .3s ease;
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    nav.links.open{transform:translateY(0);opacity:1;}
+    .burger{display:flex;}
+    .hero{padding:80px 0 60px;}
+    .hero-stats{gap:24px;}
+    section{padding:64px 0;}
+    .video-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media (max-width: 580px){
+    .video-grid{grid-template-columns:1fr;gap:20px;max-width:340px;margin:0 auto;}
+  }
+  @media (max-width: 480px){
+    .hero-actions{flex-direction:column;}
+    .btn{width:100%;justify-content:center;}
+    .wheel-badge{left:10px;bottom:-16px;padding:10px 14px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header>
+  <div class="nav-wrap">
+    <a href="#inicio" class="logo"><span class="dot"></span>Manejo <span class="small">San Francisco</span></a>
+    <nav class="links" id="navLinks">
+      <a href="#cursos">Cursos</a>
+      <a href="#testimonios">Alumnos</a>
+      <a href="#galeria">Logros</a>
+      <a href="#faq">Preguntas</a>
+      <a href="#contacto">Contacto</a>
+      <a href="https://wa.me/5493564516056?text=Hola!%20Quiero%20informaci%C3%B3n%20para%20aprender%20a%20manejar" target="_blank" rel="noopener" class="btn-nav-cta">Reservar clase</a>
+    </nav>
+    <button class="burger" id="burgerBtn" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="inicio">
+  <div class="container hero-grid">
+    <div>
+      <div class="hero-eyebrow"><span class="sign-label">Escuela de manejo · San Francisco</span></div>
+      <h1>Manejar con <span class="hl">confianza</span> empieza en la primera clase</h1>
+      <p class="lead">Clases prácticas uno a uno, instructores certificados y un plan pensado para que rindas el examen sin nervios. Elegís tu auto, nosotros ponemos el camino.</p>
+      <div class="hero-actions">
+        <a href="#cursos" class="btn btn-primary">Ver planes y precios</a>
+        <a href="https://wa.me/5493564516056?text=Hola!%20Quiero%20consultar%20por%20las%20clases%20de%20manejo" target="_blank" rel="noopener" class="btn btn-outline">Hablar por WhatsApp</a>
+      </div>
+      <div class="hero-stats">
+        <div><strong>+500</strong><span>Alumnos licenciados</span></div>
+        <div><strong>8</strong><span>Clases prácticas</span></div>
+        <div><strong>4.9★</strong><span>Calificación alumnos</span></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="wheel-card">
+        <img src="https://images.unsplash.com/photo-1600661653561-629509216228?q=80&w=800&auto=format&fit=crop" alt="Instructor enseñando a manejar a una alumna dentro del auto">
+        <div class="wheel-badge">
+          <span class="n">8/8</span>
+          <span class="txt">Clases<br>completadas</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="lane-divider"><div class="lane-track"></div></div>
+
+<!-- ================= CURSOS ================= -->
+<section class="cursos" id="cursos">
+  <div class="container">
+    <div class="section-head">
+      <span class="sign-label">Nuestros cursos</span>
+      <h2>Elegí cómo querés aprender</h2>
+      <p>Dos formas de completar tu curso de 8 clases prácticas, con el mismo acompañamiento y la misma exigencia para que salgas 100% preparado.</p>
+    </div>
+    <div class="cards-grid">
+
+      <div class="plan-card">
+        <div class="plan-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14M6 17l1.5-5h9L18 17M9 12V8h6v4"/><circle cx="7.5" cy="17" r="1.5"/><circle cx="16.5" cy="17" r="1.5"/></svg>
+        </div>
+        <h3>Con tu auto</h3>
+        <p class="plan-desc">Practicás con el vehículo de tu familia, en un horario que se adapta a vos.</p>
+        <ul class="plan-feats">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>8 clases prácticas individuales</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Instructor certificado a bordo</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Práctica en calle y examen simulado</li>
+        </ul>
+        <div class="plan-price"><span class="amount">$250.000</span><span class="unit">/ curso completo</span></div>
+        <a href="https://wa.me/5493564516056?text=Hola!%20Quiero%20inscribirme%20al%20curso%20con%20auto%20propio" target="_blank" rel="noopener" class="btn btn-book">Inscribirme ahora</a>
+      </div>
+
+      <div class="plan-card featured">
+        <span class="plan-tag">El más elegido</span>
+        <div class="plan-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 9V7a2 2 0 012-2h6a2 2 0 012 2v2M7 17v2M17 17v2"/></svg>
+        </div>
+        <h3>Con auto de la escuela</h3>
+        <p class="plan-desc">Aprendés desde cero en un auto doble comando, ideal si nunca manejaste.</p>
+        <ul class="plan-feats">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>8 clases prácticas individuales</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Auto con doble comando de seguridad</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Retiro y devolución en punto acordado</li>
+        </ul>
+        <div class="plan-price"><span class="amount">$300.000</span><span class="unit">/ curso completo</span></div>
+        <a href="https://wa.me/5493564516056?text=Hola!%20Quiero%20inscribirme%20al%20curso%20con%20auto%20de%20la%20escuela" target="_blank" rel="noopener" class="btn btn-book">Inscribirme ahora</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="lane-divider on-dark-blue"><div class="lane-track"></div></div>
+
+<!-- ================= TESTIMONIOS EN VIDEO ================= -->
+<section class="testimonios" id="testimonios">
+  <div class="container">
+    <div class="section-head">
+      <span class="sign-label">Testimonios</span>
+      <h2>Nuestros alumnos al volante</h2>
+      <p>Historias reales de personas que perdieron el miedo al volante y hoy manejan solas por San Francisco.</p>
+    </div>
+    <div class="video-grid">
+
+      <!-- Primer Video -->
+      <div class="video-card">
+        <div class="video-frame">
+          <iframe src="https://www.instagram.com/reel/DV8hdWtDfCh/embed/" allowtransparency="true" allowfullscreen="true" scrolling="no"></iframe>
+        </div>
+        <div class="video-info">
+          <p class="testimonial-text">"Esta es la señal para que empieces a manejar 🚘 Técnicas clave para estar seguro a la hora de aprender 🚗"</p>
+        </div>
+      </div>
+
+      <!-- Segundo Video -->
+      <div class="video-card">
+        <div class="video-frame">
+          <iframe src="https://www.instagram.com/reel/DaNoJxUB4aw/embed/" allowtransparency="true" allowfullscreen="true" scrolling="no"></iframe>
+        </div>
+        <div class="video-info">
+          <p class="testimonial-text">"¡Ella ya empezó sus prácticas en su vehículo! Estamos ya en la etapa de estacionamiento. ¡Conciencia al volante!"</p>
+        </div>
+      </div>
+
+      <!-- Tercer Video -->
+      <div class="video-card">
+        <div class="video-frame">
+          <iframe src="https://www.instagram.com/reel/DaBbba3tg4A/embed/" allowtransparency="true" allowfullscreen="true" scrolling="no"></iframe>
+        </div>
+        <div class="video-info">
+          <p class="testimonial-text">"¡Este mes lo feliz que nos pone tener tantos hombres! No hay que tener vergüenza de pedir ayuda en algo que nos cuesta. Saber pedir ayuda es un gesto de amor propio y de ambición. Nosotros estamos para ayudarte a combatir el miedo y darte ese empujoncito que falta. ¡Conciencia al volante!"</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="lane-divider on-paper"><div class="lane-track"></div></div>
+
+<!-- ================= GALERIA DE LOGROS ================= -->
+<section class="galeria" id="galeria">
+  <div class="container">
+    <div class="section-head">
+      <span class="sign-label">Alumnos licenciados</span>
+      <h2>Galería de logros</h2>
+      <p>Cada licencia es un objetivo cumplido. Conocé los resultados reales de nuestros alumnos.</p>
+    </div>
+    <div class="gallery-grid-embeds">
+      
+      <!-- Publicación 1 (Reel DYXki77tDN9) -->
+      <div class="gallery-embed-item">
+        <iframe src="https://www.instagram.com/reel/DYXki77tDN9/embed/" allowtransparency="true" allowfullscreen="true" scrolling="no"></iframe>
+      </div>
+
+      <!-- Publicación 2 (Reel DX6xkMmAjEz) -->
+      <div class="gallery-embed-item">
+        <iframe src="https://www.instagram.com/reel/DX6xkMmAjEz/embed/" allowtransparency="true" allowfullscreen="true" scrolling="no"></iframe>
+      </div>
+
+      <!-- Publicación 3 (Post DZpfEqhADVu) -->
+      <div class="gallery-embed-item">
+        <iframe src="https://www.instagram.com/p/DZpfEqhADVu/embed/" allowtransparency="true" allowfullscreen="true" scrolling="no"></iframe>
+      </div>
+
+      <!-- Publicación 4 (Reel DY7KsKFx4t8) -->
+      <div class="gallery-embed-item">
+        <iframe src="https://www.instagram.com/reel/DY7KsKFx4t8/embed/" allowtransparency="true" allowfullscreen="true" scrolling="no"></iframe>
+      </div>
+
+      <!-- Publicación 5 (Reel DRCYa5ijecy) -->
+      <div class="gallery-embed-item">
+        <iframe src="https://www.instagram.com/reel/DRCYa5ijecy/embed/" allowtransparency="true" allowfullscreen="true" scrolling="no"></iframe>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="lane-divider on-dark-blue" style="background:var(--road-blue);"><div class="lane-track"></div></div>
+
+<!-- ================= FAQ ================= -->
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="section-head">
+      <span class="sign-label" style="background:var(--asphalt);">Preguntas frecuentes</span>
+      <h2>Dudas antes de empezar</h2>
+      <p>Si tenés otra pregunta, escribinos por WhatsApp y te respondemos al toque.</p>
+    </div>
+    <div class="faq-list" id="faqList">
+
+      <div class="faq-item">
+        <button class="faq-question">¿A partir de qué edad puedo empezar?<span class="icon"></span></button>
+        <div class="faq-answer"><p>Podés empezar a practicar desde los 16 años cumplidos. Para rendir el examen y obtener la licencia definitiva, la edad mínima habilitada varía según el tipo de vehículo, así que lo confirmamos juntos en la primera clase.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">¿Qué pasa si llueve el día de mi clase?<span class="icon"></span></button>
+        <div class="faq-answer"><p>Si el clima no es seguro para practicar, reprogramamos la clase sin costo para el próximo turno disponible. Te avisamos con anticipación por WhatsApp.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">¿Necesito saber algo de manejo antes de arrancar?<span class="icon"></span></button>
+        <div class="faq-answer"><p>No, para nada. La mayoría de nuestros alumnos empieza desde cero. Arrancamos por lo básico y avanzamos a tu ritmo hasta que te sientas cómodo en el tránsito real.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">¿Las clases son individuales o grupales?<span class="icon"></span></button>
+        <div class="faq-answer"><p>Todas las clases prácticas son individuales, uno a uno con tu instructor, para que el ritmo de aprendizaje sea el tuyo y no el del grupo.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">¿Ustedes me ayudan a gestionar el examen y la licencia?<span class="icon"></span></button>
+        <div class="faq-answer"><p>Sí, te orientamos con los requisitos, la documentación y el turno para el examen en el municipio, y hacemos un simulacro en la última clase.</p></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="lane-divider"><div class="lane-track"></div></div>
+
+<!-- ================= CONTACTO ================= -->
+<section class="contacto" id="contacto">
+  <div class="container">
+    <div class="section-head">
+      <span class="sign-label" style="background:var(--asphalt);">Ubicación y contacto</span>
+      <h2>Te esperamos en San Francisco</h2>
+      <p>Coordinamos tu primera clase por WhatsApp. También podés seguirnos en Instagram para ver más historias de alumnos.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="map-wrap">
+        <iframe
+          src="https://www.google.com/maps?q=Fleming+327,+San+Francisco,+C%C3%B3rdoba,+Argentina&output=embed"
+          allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          title="Ubicación de Manejo San Francisco en Fleming 327"></iframe>
+      </div>
+      <div class="contact-card">
+
+        <a class="contact-row" href="https://wa.me/5493564516056?text=Hola!%20Quiero%20consultar%20por%20las%20clases%20de%20manejo" target="_blank" rel="noopener">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></span>
+          <span class="txt"><strong>WhatsApp</strong><span>Respondemos en el día</span></span>
+        </a>
+
+        <a class="contact-row" href="https://www.instagram.com/manejo.sanfco/?hl=es" target="_blank" rel="noopener">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></span>
+          <span class="txt"><strong>Instagram</strong><span>@manejo.sanfco</span></span>
+        </a>
+
+        <a class="contact-row" href="https://www.google.com/maps?q=Fleming+327,+San+Francisco,+C%C3%B3rdoba,+Argentina" target="_blank" rel="noopener">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+          <span class="txt"><strong>Dirección</strong><span>Fleming 327, San Francisco, Córdoba</span></span>
+        </a>
+
+        <a href="https://wa.me/5493564516056?text=Hola!%20Quiero%20reservar%20mi%20primera%20clase" target="_blank" rel="noopener" class="btn btn-primary">Reservar mi primera clase</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="container">
+    <div class="foot-logo">Manejo <span>San Francisco</span></div>
+    <p>Escuela de manejo · Clases prácticas con instructores certificados</p>
+    <div class="foot-links">
+      <a href="#cursos">Cursos</a>
+      <a href="#testimonios">Alumnos</a>
+      <a href="#galeria">Logros</a>
+      <a href="#faq">Preguntas</a>
+      <a href="https://www.instagram.com/manejo.sanfco/?hl=es" target="_blank" rel="noopener">Instagram</a>
+    </div>
+    <p>© <span id="year"></span> Manejo San Francisco. Todos los derechos reservados.</p>
+  </div>
+</footer>
+
+<a class="float-wa" href="https://wa.me/5493564516056?text=Hola!%20Quiero%20consultar%20por%20las%20clases%20de%20manejo" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.39 1.26 4.81L2 22l5.44-1.34a9.9 9.9 0 004.6 1.14h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.05c-.24.68-1.4 1.32-1.93 1.4-.5.08-1.13.11-1.82-.11-.42-.13-.96-.31-1.65-.6-2.9-1.25-4.79-4.16-4.94-4.35-.15-.2-1.18-1.57-1.18-3 0-1.42.75-2.12 1.02-2.41.27-.29.58-.36.78-.36.2 0 .39 0 .56.01.18.01.42-.07.65.5.24.58.82 2 .89 2.15.07.15.11.32.02.51-.09.2-.14.32-.27.49-.14.17-.29.38-.41.51-.14.15-.28.31-.12.6.16.29.72 1.19 1.55 1.93 1.06.95 1.96 1.24 2.25 1.38.29.15.46.13.63-.07.17-.2.72-.83.91-1.12.19-.29.38-.24.63-.14.26.1 1.65.78 1.93.92.29.14.48.21.55.33.07.12.07.68-.17 1.36z"/></svg>
+</a>
+
+<script>
+  // Mobile nav toggle
+  const burgerBtn = document.getElementById('burgerBtn');
+  const navLinks = document.getElementById('navLinks');
+  burgerBtn.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    burgerBtn.setAttribute('aria-expanded', isOpen);
+  });
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      burgerBtn.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-item').forEach(item => {
+    const question = item.querySelector('.faq-question');
+    const answer = item.querySelector('.faq-answer');
+    question.addEventListener('click', () => {
+      const alreadyOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(openItem => {
+        openItem.classList.remove('open');
+        openItem.querySelector('.faq-answer').style.maxHeight = null;
+      });
+      if (!alreadyOpen) {
+        item.classList.add('open');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      }
+    });
+  });
+
+  // Footer year
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
