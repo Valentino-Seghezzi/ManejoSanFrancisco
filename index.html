@@ -48,7 +48,7 @@
     *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important;}
   }
 
-  /* --- Signature element: dashed "lane line" divider between sections, echoing road markings --- */
+  /* --- Signature element: dashed "lane line" divider between sections --- */
   .lane-divider{
     height:34px;
     display:flex;
@@ -308,8 +308,8 @@
   section{padding:90px 0;}
   .section-head{
     text-align:center;
-    max-width:640px;
-    margin:0 auto 56px;
+    max-width:720px;
+    margin:0 auto 48px;
   }
   .section-head .sign-label{margin-bottom:18px;}
   .section-head h2{
@@ -320,13 +320,59 @@
   }
   .section-head p{color:var(--concrete);font-size:1.02rem;}
 
-  /* ---------------- CURSOS ---------------- */
-  .cursos{background:var(--paper);}
+  /* ---------------- ENSEÑANZA Y METODOLOGÍA ---------------- */
+  .ensenanza{background:var(--paper);}
+  
+  /* Banner conceptual / Filosofía */
+  .philosophy-card{
+    background:linear-gradient(135deg, var(--road-blue), var(--asphalt));
+    color:var(--white);
+    border-radius:20px;
+    padding:40px;
+    margin-bottom:50px;
+    box-shadow:var(--shadow-soft);
+    border-left:6px solid var(--line-yellow);
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:30px;
+    align-items:center;
+  }
+  .philosophy-content h3{
+    font-size:1.6rem;
+    color:var(--line-yellow);
+    text-transform:uppercase;
+    margin-bottom:12px;
+  }
+  .philosophy-content p{
+    font-size:1.05rem;
+    color:#E0E6ED;
+    line-height:1.7;
+  }
+  .philosophy-badge{
+    background:rgba(255,255,255,.08);
+    padding:20px;
+    border-radius:16px;
+    text-align:center;
+    border:1px solid rgba(255,255,255,.15);
+    min-width:200px;
+  }
+  .philosophy-badge span.title{
+    display:block;
+    font-family:var(--font-display);
+    font-size:1.2rem;
+    color:var(--white);
+    text-transform:uppercase;
+  }
+  .philosophy-badge span.sub{
+    font-size:.85rem;
+    color:var(--line-yellow);
+  }
+
   .cards-grid{
     display:grid;
     grid-template-columns:repeat(2, 1fr);
     gap:30px;
-    max-width:920px;
+    max-width:1000px;
     margin:0 auto;
   }
   .plan-card{
@@ -341,25 +387,8 @@
     flex-direction:column;
   }
   .plan-card:hover{
-    transform:translateY(-8px);
-    box-shadow:0 22px 40px -16px rgba(23,27,34,.28);
-  }
-  .plan-card.featured{
-    border:2px solid var(--line-yellow);
-  }
-  .plan-tag{
-    position:absolute;
-    top:-14px;
-    right:28px;
-    background:var(--signal-orange);
-    color:var(--white);
-    font-family:var(--font-display);
-    font-size:.72rem;
-    letter-spacing:.08em;
-    text-transform:uppercase;
-    padding:6px 14px;
-    border-radius:999px;
-    box-shadow:0 4px 10px -3px rgba(255,107,53,.6);
+    transform:translateY(-6px);
+    box-shadow:0 22px 40px -16px rgba(23,27,34,.2);
   }
   .plan-icon{
     width:54px;height:54px;
@@ -375,24 +404,30 @@
     margin-bottom:10px;
     color:var(--asphalt);
   }
-  .plan-card .plan-desc{color:var(--concrete);font-size:.94rem;margin-bottom:22px;}
-  .plan-feats{margin-bottom:26px;display:flex;flex-direction:column;gap:10px;}
+  .plan-card .plan-desc{color:var(--concrete);font-size:.95rem;margin-bottom:22px;line-height:1.6;}
+  .plan-feats-title{
+    font-family:var(--font-display);
+    font-size:.9rem;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    color:var(--road-blue);
+    margin-bottom:12px;
+  }
+  .plan-feats{margin-bottom:26px;display:flex;flex-direction:column;gap:12px;}
   .plan-feats li{
-    display:flex;align-items:center;gap:10px;
+    display:flex;align-items:flex-start;gap:10px;
     font-size:.92rem;color:var(--asphalt);
   }
-  .plan-feats li svg{width:18px;height:18px;flex-shrink:0;stroke:var(--road-blue);}
-  .plan-price{
-    display:flex;
-    align-items:baseline;
-    gap:6px;
-    margin-bottom:26px;
+  .plan-feats li svg{width:18px;height:18px;flex-shrink:0;stroke:var(--road-blue);margin-top:3px;}
+
+  .info-footer-card{
+    margin-top:auto;
     padding-top:20px;
     border-top:1px dashed var(--paper-dim);
+    font-size:.88rem;
+    color:var(--concrete);
   }
-  .plan-price .amount{font-family:var(--font-display);font-size:2.3rem;color:var(--road-blue);}
-  .plan-price .unit{font-size:.85rem;color:var(--concrete);}
-  .plan-card .btn{width:100%;justify-content:center;margin-top:auto;}
+
   .btn-book{
     background:var(--road-blue);
     color:var(--white);
@@ -620,7 +655,8 @@
   @media (max-width: 980px){
     .hero-grid{grid-template-columns:1fr;}
     .hero-visual{max-width:380px;margin:0 auto;}
-    .cards-grid{grid-template-columns:1fr;max-width:460px;}
+    .cards-grid{grid-template-columns:1fr;max-width:500px;}
+    .philosophy-card{grid-template-columns:1fr;text-align:center;border-left:none;border-top:6px solid var(--line-yellow);}
     .video-grid{grid-template-columns:repeat(2, 1fr);}
     .contact-grid{grid-template-columns:1fr;}
   }
@@ -662,12 +698,12 @@
   <div class="nav-wrap">
     <a href="#inicio" class="logo"><span class="dot"></span>Manejo <span class="small">San Francisco</span></a>
     <nav class="links" id="navLinks">
-      <a href="#cursos">Cursos</a>
+      <a href="#ensenanza">Modalidades</a>
       <a href="#testimonios">Alumnos</a>
       <a href="#galeria">Logros</a>
       <a href="#faq">Preguntas</a>
       <a href="#contacto">Contacto</a>
-      <a href="https://wa.me/5493564516056?text=Hola!%20Quiero%20informaci%C3%B3n%20para%20aprender%20a%20manejar" target="_blank" rel="noopener" class="btn-nav-cta">Reservar clase</a>
+      <a href="https://wa.me/5493564516056?text=Hola!%20Quiero%20informaci%C3%B3n%20para%20aprender%20a%20manejar" target="_blank" rel="noopener" class="btn-nav-cta">Consultar clases</a>
     </nav>
     <button class="burger" id="burgerBtn" aria-label="Abrir menú" aria-expanded="false">
       <span></span><span></span><span></span>
@@ -681,9 +717,9 @@
     <div>
       <div class="hero-eyebrow"><span class="sign-label">Escuela de manejo · San Francisco</span></div>
       <h1>Manejar con <span class="hl">confianza</span> empieza en la primera clase</h1>
-      <p class="lead">Clases prácticas uno a uno, instructores certificados y un plan pensado para que rindas el examen sin nervios. Elegís tu auto, nosotros ponemos el camino.</p>
+      <p class="lead">Clases prácticas uno a uno, instructores certificados y un método diseñado para perder el miedo, ganar reflejos y disfrutar la libertad de conducir.</p>
       <div class="hero-actions">
-        <a href="#cursos" class="btn btn-primary">Ver planes y precios</a>
+        <a href="#ensenanza" class="btn btn-primary">Conocé nuestra enseñanza</a>
         <a href="https://wa.me/5493564516056?text=Hola!%20Quiero%20consultar%20por%20las%20clases%20de%20manejo" target="_blank" rel="noopener" class="btn btn-outline">Hablar por WhatsApp</a>
       </div>
       <div class="hero-stats">
@@ -696,8 +732,8 @@
       <div class="wheel-card">
         <img src="https://images.unsplash.com/photo-1600661653561-629509216228?q=80&w=800&auto=format&fit=crop" alt="Instructor enseñando a manejar a una alumna dentro del auto">
         <div class="wheel-badge">
-          <span class="n">8/8</span>
-          <span class="txt">Clases<br>completadas</span>
+          <span class="n">100%</span>
+          <span class="txt">Acompañamiento<br>personalizado</span>
         </div>
       </div>
     </div>
@@ -706,45 +742,97 @@
 
 <div class="lane-divider"><div class="lane-track"></div></div>
 
-<!-- ================= CURSOS ================= -->
-<section class="cursos" id="cursos">
+<!-- ================= FORMAS DE ENSEÑANZA ================= -->
+<section class="ensenanza" id="ensenanza">
   <div class="container">
     <div class="section-head">
-      <span class="sign-label">Nuestros cursos</span>
-      <h2>Elegí cómo querés aprender</h2>
-      <p>Dos formas de completar tu curso de 8 clases prácticas, con el mismo acompañamiento y la misma exigencia para que salgas 100% preparado.</p>
+      <span class="sign-label">Metodología de trabajo</span>
+      <h2>Formas de enseñanza que manejamos</h2>
+      <p>Nuestro compromiso va más allá de enseñarte las maniobras básicas. Queremos transformarte en un conductor seguro, capaz de reaccionar adecuadamente ante cualquier imprevisto del tránsito.</p>
     </div>
+
+    <!-- Banner con la filosofía pedagógica -->
+    <div class="philosophy-card">
+      <div class="philosophy-content">
+        <h3>De la inseguridad al placer de conducir</h3>
+        <p>Sabemos que subirse al volante por primera vez puede generar dudas o tensión. Por eso, nuestras clases no buscan simplemente que rindas un examen, sino que <strong>pierdas el miedo</strong>, comprendas el comportamiento del tránsito y desarrolles reflejos para <strong>reaccionar con calma ante cualquier situación imprevista</strong>. Queremos que manejar deje de ser una fuente de estrés y pase a ser algo que realmente disfrutes.</p>
+      </div>
+      <div class="philosophy-badge">
+        <span class="title">Seguridad Total</span>
+        <span class="sub">Técnica + Confianza</span>
+      </div>
+    </div>
+
     <div class="cards-grid">
 
+      <!-- Modalidad 1: Auto que brinda nuestra Escuela -->
+      <div class="plan-card">
+        <div class="plan-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 9V7a2 2 0 012-2h6a2 2 0 012 2v2M7 17v2M17 17v2"/></svg>
+        </div>
+        <h3>Práctica en Auto que brinda nuestra Escuela</h3>
+        <p class="plan-desc">Te ofrecemos la posibilidad de realizar las clases prácticas utilizando los vehículos de nuestra institución, diseñados para que aprendas a manejar de forma cómoda, progresiva y adaptada a tus necesidades.</p>
+        
+        <span class="plan-feats-title">¿Cómo trabajamos esta modalidad?</span>
+        <ul class="plan-feats">
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <span><strong>Atención y guía constante:</strong> El instructor te acompaña en todo momento, guiándote paso a paso en el manejo del vehículo y corrigiendo cualquier detalle en tiempo real.</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <span><strong>Vehículos adecuados y en perfecto estado:</strong> Un auto óptimo y preparado para que te sientas cómodo desde el primer momento, facilitando el control de los pedales, el volante y las maniobras.</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <span><strong>Progresión libre de estrés:</strong> Comenzamos en espacios tranquilos y avanzamos progresivamente hacia zonas de mayor tránsito urbano.</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <span><strong>Punto de encuentro adaptable:</strong> Nos coordinamos para retirarte y devolverte en un punto acordado.</span>
+          </li>
+        </ul>
+
+        <div class="info-footer-card">
+          <p>🎯 <em>Ideal para construir una base sólida sin preocupaciones mecánicas ni de seguridad.</em></p>
+        </div>
+      </div>
+
+      <!-- Modalidad 2: Auto propio / familiar -->
       <div class="plan-card">
         <div class="plan-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14M6 17l1.5-5h9L18 17M9 12V8h6v4"/><circle cx="7.5" cy="17" r="1.5"/><circle cx="16.5" cy="17" r="1.5"/></svg>
         </div>
-        <h3>Con tu auto</h3>
-        <p class="plan-desc">Practicás con el vehículo de tu familia, en un horario que se adapta a vos.</p>
+        <h3>Práctica en Vehículo Propio / Familiar</h3>
+        <p class="plan-desc">Pensada para adaptarte directamente a las dimensiones, pedales y comportamiento del vehículo que vas a utilizar en tu vida cotidiana.</p>
+        
+        <span class="plan-feats-title">¿Cómo trabajamos esta modalidad?</span>
         <ul class="plan-feats">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>8 clases prácticas individuales</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Instructor certificado a bordo</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Práctica en calle y examen simulado</li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <span><strong>Aclimatación directa:</strong> Generás memoria muscular y confianza sobre los puntos ciegos, embrague y frenado exactos de tu propio vehículo.</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <span><strong>Resolución de maniobras reales:</strong> Practicamos estacionamiento, arranques en pendiente y giros con las medidas exactas de tu coche.</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <span><strong>Atención y guía constante:</strong> El instructor te acompaña en todo momento, guiándote paso a paso en el manejo del vehículo y corrigiendo cualquier detalle en tiempo real.</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <span><strong>Progresión libre de estrés:</strong> Comenzamos en espacios tranquilos y avanzamos progresivamente hacia zonas de mayor tránsito urbano.</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <span><strong>Punto de encuentro adaptable:</strong> Nos coordinamos para retirarte y devolverte en un punto acordado.</span>
+          </li>
         </ul>
-        <div class="plan-price"><span class="amount">$250.000</span><span class="unit">/ curso completo</span></div>
-        <a href="https://wa.me/5493564516056?text=Hola!%20Quiero%20inscribirme%20al%20curso%20con%20auto%20propio" target="_blank" rel="noopener" class="btn btn-book">Inscribirme ahora</a>
-      </div>
 
-      <div class="plan-card featured">
-        <span class="plan-tag">El más elegido</span>
-        <div class="plan-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 9V7a2 2 0 012-2h6a2 2 0 012 2v2M7 17v2M17 17v2"/></svg>
+        <div class="info-footer-card">
+          <p>🎯 <em>Ideal para soltar el miedo a tu propio auto y sentir que realmente tenés el control.</em></p>
         </div>
-        <h3>Con auto de la escuela</h3>
-        <p class="plan-desc">Aprendés desde cero en un auto doble comando, ideal si nunca manejaste.</p>
-        <ul class="plan-feats">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>8 clases prácticas individuales</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Auto con doble comando de seguridad</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Retiro y devolución en punto acordado</li>
-        </ul>
-        <div class="plan-price"><span class="amount">$300.000</span><span class="unit">/ curso completo</span></div>
-        <a href="https://wa.me/5493564516056?text=Hola!%20Quiero%20inscribirme%20al%20curso%20con%20auto%20de%20la%20escuela" target="_blank" rel="noopener" class="btn btn-book">Inscribirme ahora</a>
       </div>
 
     </div>
@@ -809,27 +897,27 @@
     </div>
     <div class="gallery-grid-embeds">
       
-      <!-- Publicación 1 (Reel DYXki77tDN9) -->
+      <!-- Publicación 1 -->
       <div class="gallery-embed-item">
         <iframe src="https://www.instagram.com/reel/DYXki77tDN9/embed/" allowtransparency="true" allowfullscreen="true" scrolling="no"></iframe>
       </div>
 
-      <!-- Publicación 2 (Reel DX6xkMmAjEz) -->
+      <!-- Publicación 2 -->
       <div class="gallery-embed-item">
         <iframe src="https://www.instagram.com/reel/DX6xkMmAjEz/embed/" allowtransparency="true" allowfullscreen="true" scrolling="no"></iframe>
       </div>
 
-      <!-- Publicación 3 (Post DZpfEqhADVu) -->
+      <!-- Publicación 3 -->
       <div class="gallery-embed-item">
         <iframe src="https://www.instagram.com/p/DZpfEqhADVu/embed/" allowtransparency="true" allowfullscreen="true" scrolling="no"></iframe>
       </div>
 
-      <!-- Publicación 4 (Reel DY7KsKFx4t8) -->
+      <!-- Publicación 4 -->
       <div class="gallery-embed-item">
         <iframe src="https://www.instagram.com/reel/DY7KsKFx4t8/embed/" allowtransparency="true" allowfullscreen="true" scrolling="no"></iframe>
       </div>
 
-      <!-- Publicación 5 (Reel DRCYa5ijecy) -->
+      <!-- Publicación 5 -->
       <div class="gallery-embed-item">
         <iframe src="https://www.instagram.com/reel/DRCYa5ijecy/embed/" allowtransparency="true" allowfullscreen="true" scrolling="no"></iframe>
       </div>
@@ -913,7 +1001,7 @@
           <span class="txt"><strong>Dirección</strong><span>Fleming 327, San Francisco, Córdoba</span></span>
         </a>
 
-        <a href="https://wa.me/5493564516056?text=Hola!%20Quiero%20reservar%20mi%20primera%20clase" target="_blank" rel="noopener" class="btn btn-primary">Reservar mi primera clase</a>
+        <a href="https://wa.me/5493564516056?text=Hola!%20Quiero%20consultar%20por%20las%20clases" target="_blank" rel="noopener" class="btn btn-primary">Consultar por mi primera clase</a>
       </div>
     </div>
   </div>
@@ -925,7 +1013,7 @@
     <div class="foot-logo">Manejo <span>San Francisco</span></div>
     <p>Escuela de manejo · Clases prácticas con instructores certificados</p>
     <div class="foot-links">
-      <a href="#cursos">Cursos</a>
+      <a href="#ensenanza">Modalidades</a>
       <a href="#testimonios">Alumnos</a>
       <a href="#galeria">Logros</a>
       <a href="#faq">Preguntas</a>
